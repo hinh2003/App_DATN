@@ -89,7 +89,7 @@ class __FormContentState extends State<_FormContent> {
     String password = _passwordController.text;
     try {
       await ApiService.login(name, password);
-      Navigator.pushReplacementNamed(context, "/movieList");
+      Navigator.pushReplacementNamed(context, "/movie_list");
     } catch (e) {
       print("Lỗi đăng nhập: $e");
 
