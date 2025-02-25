@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import '/services/movie_service.dart';
+import '/api/movie_service.dart';
 import '/models/movie.dart';
 
 class MovieListScreen extends StatefulWidget {
