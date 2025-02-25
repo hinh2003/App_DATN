@@ -26,7 +26,6 @@ class _MovieListScreenState extends State<MovieListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Danh sách phim")),
       body: FutureBuilder<List<Movie>>(
         future: futureMovies,
         builder: (context, snapshot) {
@@ -51,7 +50,12 @@ class _MovieListScreenState extends State<MovieListScreen> {
           } else {
             List<Movie> movies = snapshot.data!;
             return RefreshIndicator(
-              onRefresh: () async => fetchMovies(),
+              onRefresh: () async {
+                fetchMovies();
+                await Future.delayed(
+                  Duration(milliseconds: 500),
+                ); // Cho hiệu ứng load mượt hơn
+              },
               child: ListView.builder(
                 itemCount: movies.length,
                 itemBuilder: (context, index) {
@@ -74,12 +78,14 @@ class _MovieListScreenState extends State<MovieListScreen> {
                             imageUrl:
                                 movie.pic.isNotEmpty
                                     ? movie.pic
-                                    : "assets/images/placeholder.png",
+                                    : "https://via.placeholder.com/60",
                             placeholder:
-                                (context, url) => CircularProgressIndicator(),
+                                (context, url) =>
+                                    Center(child: CircularProgressIndicator()),
                             errorWidget:
                                 (context, url, error) => Image.asset(
                                   "assets/images/placeholder.png",
+                                  fit: BoxFit.cover,
                                 ),
                             fit: BoxFit.cover,
                             fadeInDuration: Duration(milliseconds: 300),
