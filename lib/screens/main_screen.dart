@@ -5,7 +5,7 @@ import '/screens/NavBar/home_screen.dart';
 import '/screens/NavBar/likes_screen.dart';
 import '/screens/NavBar/search_screen.dart';
 import '/screens/NavBar/profile_screen.dart';
-import 'Movie/movie_screnn.dart';
+import 'Movie/movie_list_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -27,7 +27,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Google Bottom Bar')),
+      appBar: AppBar(title: const Text('AnimeVietSub')),
       body: _screens[_selectedIndex],
       bottomNavigationBar: SalomonBottomBar(
         currentIndex: _selectedIndex,

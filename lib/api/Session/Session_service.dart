@@ -20,11 +20,13 @@ class ApiService {
       if (response.statusCode == 200) {
         var data = jsonDecode(response.body);
         String token = data['token']['plainTextToken'];
-
+        String username = data['user']['name'];
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
+        await prefs.setString('username', username);
 
         print("Token được lưu: $token");
+        print("Ten được lưu: $username");
       } else {
         _handleError(response);
       }
@@ -42,5 +44,11 @@ class ApiService {
             : 'Có lỗi xảy ra khi đăng nhập.';
     print("Lỗi đăng nhập: $errorMessage");
     throw Exception(errorMessage);
+  }
+
+  static Future<bool> isLoggedIn() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+    return token != null && token.isNotEmpty;
   }
 }

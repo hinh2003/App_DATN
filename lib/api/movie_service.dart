@@ -8,17 +8,9 @@ class MovieService {
   static Future<List<Movie>> fetchMovies() async {
     try {
       String? token = await AuthService.getToken();
-
-      if (token == null || token.isEmpty) {
-        throw Exception("Token không hợp lệ hoặc chưa đăng nhập.");
-      }
-
       final response = await http.get(
         Uri.parse(ApiConfig.moviesList),
-        headers: {
-          'Authorization': 'Bearer ${token.trim()}',
-          'Accept': 'application/json',
-        },
+        headers: {'Accept': 'application/json'},
       );
 
       if (response.statusCode == 200) {

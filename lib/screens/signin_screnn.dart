@@ -114,8 +114,7 @@ class __FormContentState extends State<_FormContent> {
           children: [
             // Ô nhập Email
             TextFormField(
-              controller:
-                  _usernameController, // Đổi thành controller cho tên đăng nhập
+              controller: _usernameController,
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return 'Vui lòng nhập tên đăng nhập';
