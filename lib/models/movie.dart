@@ -1,3 +1,5 @@
+import 'package:my_app/api/config/api_config.dart';
+
 class Movie {
   final int id;
   final String nameMovie;
@@ -27,7 +29,7 @@ class Movie {
       nameMovie: json['name_movie'] ?? 'Không có tên',
       pic:
           Uri.parse(
-            "http://192.168.1.150:8000/frontend/${json['pic'] ?? ''}",
+            ApiConfig.urlImg + "/frontend/${json['pic'] ?? ''}",
           ).toString(),
       episodes: json['episodes'] ?? 0,
       description: json['description'] ?? 'Không có mô tả',

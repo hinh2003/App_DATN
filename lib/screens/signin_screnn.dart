@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'signup_screen.dart';
 import 'package:http/http.dart' as http;
-import 'package:my_app/services/Session/api_service.dart';
+import 'package:my_app/api/Session/Session_service.dart';
 
 class SignInPage2 extends StatelessWidget {
   const SignInPage2({Key? key}) : super(key: key);
@@ -89,7 +89,7 @@ class __FormContentState extends State<_FormContent> {
     String password = _passwordController.text;
     try {
       await ApiService.login(name, password);
-      Navigator.pushReplacementNamed(context, "/movieList");
+      Navigator.pushReplacementNamed(context, '/home');
     } catch (e) {
       print("Lỗi đăng nhập: $e");
 
