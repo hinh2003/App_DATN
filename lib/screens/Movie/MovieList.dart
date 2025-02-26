@@ -14,9 +14,8 @@ class MovieList extends StatelessWidget {
     }
 
     return ListView.builder(
-      physics:
-          NeverScrollableScrollPhysics(), // ✅ Không cuộn riêng, cuộn theo `SingleChildScrollView`
-      shrinkWrap: true, // ✅ Cho phép nằm trong `Column`
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
       itemCount: movies.length,
       itemBuilder: (context, index) {
         final movie = movies[index];

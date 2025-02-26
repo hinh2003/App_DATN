@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
-import '/screens/NavBar/home_screen.dart';
 import '/screens/NavBar/likes_screen.dart';
 import '/screens/NavBar/search_screen.dart';
 import '/screens/NavBar/profile_screen.dart';
@@ -28,7 +27,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('AnimeVietSub')),
-      body: _screens[_selectedIndex],
+      body: IndexedStack(index: _selectedIndex, children: _screens),
       bottomNavigationBar: SalomonBottomBar(
         currentIndex: _selectedIndex,
         selectedItemColor: const Color(0xff6200ee),

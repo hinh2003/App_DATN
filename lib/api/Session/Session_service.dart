@@ -51,4 +51,35 @@ class ApiService {
     String? token = prefs.getString('token');
     return token != null && token.isNotEmpty;
   }
+
+  static Future<void> logout() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+
+      if (token == null) {
+        print("Không tìm thấy token");
+        return;
+      }
+
+      final response = await http.post(
+        Uri.parse(ApiConfig.logout),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Accept': 'application/json',
+        },
+      );
+
+      if (response.statusCode == 200) {
+        await prefs.remove('token');
+        await prefs.setBool('isLoggedIn', false);
+        await prefs.remove('username');
+        print("Ban da dang xuat thanh cong");
+      } else {
+        print("Lỗi khi đăng xuất: ${response.body}");
+      }
+    } catch (e) {
+      print("Lỗi: $e");
+    }
+  }
 }

@@ -14,23 +14,20 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   late Future<bool> _isLoggedIn;
-  late Future<String>
-  _username; // Dùng Future<String> thay vì const Future<String>
+  late Future<String> _username;
 
   @override
   void initState() {
     super.initState();
     _isLoggedIn = ApiService.isLoggedIn();
-    _username = _loadUsername(); // Gọi hàm để lấy tên user
+    _username = _loadUsername();
   }
 
   Future<void> _logout() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('token');
-    await prefs.remove('username'); // Xóa luôn tên user khi logout
+    ApiService.logout();
     setState(() {
       _isLoggedIn = Future.value(false);
-      _username = Future.value("Người dùng"); // Reset tên về mặc định
+      _username = Future.value("Người dùng");
     });
   }
 
@@ -76,7 +73,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       if (!isLoggedIn) _buildAuthButtons(),
                       if (isLoggedIn) _buildLogoutButton(),
                       const SizedBox(height: 16),
-                      Expanded(child: _buildMenuList()),
+                      Expanded(child: _buildMenuList(_isLoggedIn)),
                     ],
                   );
                 },
@@ -121,13 +118,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
-  Widget _buildMenuList() {
-    return ListView(
-      children: const [
-        _ProfileMenuItem(icon: Icons.bookmark, title: "Phim đã lưu"),
-        _ProfileMenuItem(icon: Icons.history, title: "Phim đã xem"),
-        _ProfileMenuItem(icon: Icons.info, title: "Thông tin phiên bản"),
-      ],
+  Widget _buildMenuList(Future<bool> isLoggedInFuture) {
+    return FutureBuilder<bool>(
+      future: isLoggedInFuture,
+      builder: (context, snapshot) {
+        if (!snapshot.hasData || !(snapshot.data ?? false)) {
+          return const SizedBox();
+        }
+        return ListView(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          children: const [
+            _ProfileMenuItem(icon: Icons.bookmark, title: "Phim đã lưu"),
+            _ProfileMenuItem(icon: Icons.history, title: "Phim đã xem"),
+            _ProfileMenuItem(icon: Icons.info, title: "Thông tin phiên bản"),
+          ],
+        );
+      },
     );
   }
 }
