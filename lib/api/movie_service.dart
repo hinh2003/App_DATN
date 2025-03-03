@@ -26,7 +26,11 @@ class MovieService {
 
   static List<Movie> parseMovies(String responseBody) {
     try {
-      List<dynamic> jsonList = jsonDecode(responseBody);
+      final Map<String, dynamic> jsonMap = jsonDecode(
+        responseBody,
+      ); // ✅ Decode thành Map
+      final List<dynamic> jsonList = jsonMap['movies'] ?? [];
+
       return jsonList.map((json) => Movie.fromJson(json)).toList();
     } catch (e) {
       throw Exception("Lỗi parse JSON: $e");
