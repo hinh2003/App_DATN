@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import '/api/movie_service.dart';
-import 'MovieList.dart';
+import 'movie_detail_screen.dart';
 import 'MovieBanner.dart';
 import '/models/movie.dart';
 
@@ -31,7 +31,6 @@ class _MovieListScreenState extends State<MovieListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Danh sách phim")),
       body: RefreshIndicator(
         onRefresh: () async {
           setState(() {
@@ -39,7 +38,7 @@ class _MovieListScreenState extends State<MovieListScreen> {
           });
         },
         child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(), // ✅ Giúp cuộn toàn bộ
+          physics: AlwaysScrollableScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

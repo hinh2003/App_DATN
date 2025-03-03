@@ -1,4 +1,7 @@
 import 'package:my_app/api/config/api_config.dart';
+import 'package:my_app/models/Category.dart';
+import 'package:my_app/models/Country.dart';
+import 'package:my_app/models/Status.dart';
 
 class Movie {
   final int id;
@@ -10,6 +13,9 @@ class Movie {
   final int statusId;
   final DateTime? createdAt;
   final DateTime? updatedAt;
+  final Country? country;
+  final Status? status;
+  final List<Category>? categories;
 
   Movie({
     required this.id,
@@ -21,6 +27,9 @@ class Movie {
     required this.statusId,
     this.createdAt,
     this.updatedAt,
+    this.country,
+    this.status,
+    this.categories,
   });
 
   factory Movie.fromJson(Map<String, dynamic> json) {
@@ -43,6 +52,15 @@ class Movie {
           json['updated_at'] != null
               ? DateTime.tryParse(json['updated_at'])
               : null,
+      country:
+          json['country'] != null ? Country.fromJson(json['country']) : null,
+      status: json['status'] != null ? Status.fromJson(json['status']) : null,
+      categories:
+          json['categories'] != null
+              ? (json['categories'] as List)
+                  .map((category) => Category.fromJson(category))
+                  .toList()
+              : [],
     );
   }
 }
