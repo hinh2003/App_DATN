@@ -15,7 +15,7 @@ class Chapmovies {
     return Chapmovies(
       id: json['id'],
       nameChap: json['name_chap'],
-      linkChap: json['link_chap'],
+      linkChap: json['aws_link'],
       movieId: json['movie_id'],
     );
   }

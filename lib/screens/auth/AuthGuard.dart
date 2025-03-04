@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_app/api/Session/Session_service.dart';
 
 class AuthGuard extends StatelessWidget {
-  final Widget child; // Widget con (màn hình bên trong)
+  final Widget child;
 
   const AuthGuard({Key? key, required this.child}) : super(key: key);
 

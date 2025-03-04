@@ -5,6 +5,7 @@ import 'screens/Movie/movie_list_screen.dart';
 import 'screens/main_screen.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized(); // Cần khởi tạo trước khi chạy app
   runApp(MyApp());
 }
 

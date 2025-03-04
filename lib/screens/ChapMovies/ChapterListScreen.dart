@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/models/ChapMovies.dart';
+import 'package:my_app/screens/ChapMovies/VideoChapScreen.dart';
 
 class ChapterListScreen extends StatelessWidget {
   final int movieId;
@@ -23,7 +24,16 @@ class ChapterListScreen extends StatelessWidget {
             title: Text("Tập ${chapter.nameChap}"),
             trailing: Icon(Icons.play_arrow),
             onTap: () {
-              print("Mở link: ${chapter.linkChap}");
+              print("Đang mở video: ${chapter.linkChap}");
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder:
+                      (context) =>
+                          VideoPlayerScreen(videoUrl: chapter.linkChap),
+                ),
+              );
             },
           );
         },

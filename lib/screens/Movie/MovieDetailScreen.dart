@@ -6,7 +6,7 @@ import 'package:my_app/screens/ChapMovies/ChapterListScreen.dart';
 import '/models/movie.dart';
 
 class MovieDetailScreen extends StatelessWidget {
-  final Movie movie;
+  final dynamic movie;
   List<Chapmovies> chapters = [];
 
   MovieDetailScreen({Key? key, required this.movie}) : super(key: key);
@@ -35,6 +35,8 @@ class MovieDetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String imageUrl = movie is Movie ? movie.pic : movie.pic;
+    String movieName = movie is Movie ? movie.nameMovie : movie.nameMovie;
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -44,11 +46,9 @@ class MovieDetailScreen extends StatelessWidget {
         backgroundColor: Colors.blueAccent,
       ),
       body: SingleChildScrollView(
-        // Cho phép cuộn khi nội dung quá lớn
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            // Đổi từ Row sang Column để tránh lỗi tràn viền
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               ClipRRect(

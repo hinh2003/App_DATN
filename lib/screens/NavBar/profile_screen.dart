@@ -24,7 +24,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Future<void> _logout() async {
-    ApiService.logout();
+    ApiService.logout(context);
     setState(() {
       _isLoggedIn = Future.value(false);
       _username = Future.value("Người dùng");
