@@ -8,4 +8,5 @@ class ApiConfig {
   static const String listBanner = '$baseUrl/banner';
   static const String listChapMovies = '$baseUrl/movies/chap/{id}';
   static const String listLoveMovies = '$baseUrl/movies_love';
+  static const String searchMovies = '$baseUrl/movies/find';
 }
