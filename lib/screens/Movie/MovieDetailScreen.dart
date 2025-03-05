@@ -66,7 +66,7 @@ class MovieDetailScreen extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              const SizedBox(height: 20), // Khoảng cách giữa ảnh và nội dung
+              const SizedBox(height: 20),
               Text(
                 movie.nameMovie,
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),

@@ -12,19 +12,40 @@ class MovieListScreen extends StatefulWidget {
 }
 
 class _MovieListScreenState extends State<MovieListScreen> {
-  late Future<List<Movie>> futureMovies;
+  List<Movie> movies = [];
+  int currentPage = 1;
+  bool isLoadingMore = false;
+  bool hasMore = true;
 
   @override
   void initState() {
     super.initState();
-    futureMovies = fetchMovies();
+    fetchMovies();
   }
 
-  Future<List<Movie>> fetchMovies() async {
+  Future<void> fetchMovies({bool isLoadMore = false}) async {
+    if (isLoadMore) {
+      setState(() {
+        isLoadingMore = true;
+      });
+    }
+
     try {
-      return await MovieService.fetchMovies();
+      List<Movie> newMovies = await MovieService.fetchMovies(page: currentPage);
+      setState(() {
+        if (newMovies.isEmpty) {
+          hasMore = false; // Không còn phim để tải
+        } else {
+          movies.addAll(newMovies);
+          currentPage++;
+        }
+      });
     } catch (e) {
-      throw Exception("Không thể tải phim. Vui lòng kiểm tra kết nối mạng.");
+      print("Lỗi tải phim: $e");
+    } finally {
+      setState(() {
+        isLoadingMore = false;
+      });
     }
   }
 
@@ -34,8 +55,11 @@ class _MovieListScreenState extends State<MovieListScreen> {
       body: RefreshIndicator(
         onRefresh: () async {
           setState(() {
-            futureMovies = fetchMovies();
+            movies.clear();
+            currentPage = 1;
+            hasMore = true;
           });
+          await fetchMovies();
         },
         child: SingleChildScrollView(
           physics: AlwaysScrollableScrollPhysics(),
@@ -43,18 +67,27 @@ class _MovieListScreenState extends State<MovieListScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               MovieBanner(),
-              FutureBuilder<List<Movie>>(
-                future: futureMovies,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text("Lỗi: ${snapshot.error}"));
-                  } else {
-                    return MovieList(movies: snapshot.data ?? []);
-                  }
-                },
-              ),
+              movies.isEmpty
+                  ? Center(child: CircularProgressIndicator())
+                  : Column(
+                    children: [
+                      MovieList(movies: movies),
+                      if (hasMore)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ElevatedButton(
+                            onPressed:
+                                isLoadingMore
+                                    ? null
+                                    : () => fetchMovies(isLoadMore: true),
+                            child:
+                                isLoadingMore
+                                    ? CircularProgressIndicator()
+                                    : Text("Xem thêm"),
+                          ),
+                        ),
+                    ],
+                  ),
             ],
           ),
         ),

@@ -5,11 +5,10 @@ import 'config/api_config.dart';
 import 'config/auth_service.dart';
 
 class MovieService {
-  static Future<List<Movie>> fetchMovies() async {
+  static Future<List<Movie>> fetchMovies({int page = 1}) async {
     try {
-      String? token = await AuthService.getToken();
       final response = await http.get(
-        Uri.parse(ApiConfig.moviesList),
+        Uri.parse("${ApiConfig.moviesList}?page=$page"),
         headers: {'Accept': 'application/json'},
       );
 
@@ -26,10 +25,9 @@ class MovieService {
 
   static List<Movie> parseMovies(String responseBody) {
     try {
-      final Map<String, dynamic> jsonMap = jsonDecode(
-        responseBody,
-      ); // ✅ Decode thành Map
-      final List<dynamic> jsonList = jsonMap['movies'] ?? [];
+      final Map<String, dynamic> jsonMap = jsonDecode(responseBody);
+
+      final List<dynamic> jsonList = jsonMap['movies']?['data'] ?? [];
 
       return jsonList.map((json) => Movie.fromJson(json)).toList();
     } catch (e) {

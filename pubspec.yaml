@@ -42,6 +42,7 @@ dependencies:
   chewie: ^1.10.0
   webview_flutter_android: ^4.3.2
   webview_flutter_wkwebview: ^3.18.4
+  appinio_video_player: ^1.2.2
 
 dev_dependencies:
   flutter_test:

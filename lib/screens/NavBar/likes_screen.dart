@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:my_app/api/config/auth_service.dart';
 import 'package:my_app/api/love_moves_service.dart';
 import 'package:my_app/models/LoveMovies.dart';
 import 'package:my_app/screens/Movie/MovieDetailScreen.dart';
@@ -13,12 +14,28 @@ class LikesScreen extends StatefulWidget {
 }
 
 class _LikesScreenState extends State<LikesScreen> {
-  late Future<List<LoveMovies>> _futureMovies;
+  Future<List<LoveMovies>>? _futureMovies;
 
   @override
   void initState() {
     super.initState();
-    _futureMovies = LoveMoviesService.fetchMovies();
+    _loadTokenAndFetchMovies();
+  }
+
+  Future<void> _loadTokenAndFetchMovies() async {
+    String? token = await AuthService.getToken();
+
+    if (token != null && token.isNotEmpty) {
+      setState(() {
+        _futureMovies = LoveMoviesService.fetchMovies(token);
+      });
+    } else {
+      setState(() {
+        _futureMovies = Future.error(
+          "Bạn chưa đăng nhập hoặc token không hợp lệ.",
+        );
+      });
+    }
   }
 
   @override
@@ -34,7 +51,7 @@ class _LikesScreenState extends State<LikesScreen> {
             } else if (snapshot.hasError) {
               return Center(
                 child: Text(
-                  "Lỗi tải dữ liệu: ${snapshot.error}",
+                  "Lỗi: ${snapshot.error}",
                   style: const TextStyle(color: Colors.red),
                 ),
               );
@@ -83,7 +100,7 @@ class _LikesScreenState extends State<LikesScreen> {
                               imageUrl:
                                   movie.pic.isNotEmpty
                                       ? movie.pic
-                                      : "https://via.placeholder.com/150",
+                                      : "assets/images/placeholder.png",
                               placeholder:
                                   (context, url) => const Center(
                                     child: CircularProgressIndicator(),
@@ -99,20 +116,14 @@ class _LikesScreenState extends State<LikesScreen> {
                           ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  movie.nameMovie,
-                                  maxLines: 2,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 14,
-                                  ),
-                                ),
-                                const SizedBox(height: 4),
-                              ],
+                            child: Text(
+                              movie.nameMovie,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
                             ),
                           ),
                         ],

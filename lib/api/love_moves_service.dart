@@ -5,27 +5,25 @@ import 'config/api_config.dart';
 import 'config/auth_service.dart';
 
 class LoveMoviesService {
-  static Future<List<LoveMovies>> fetchMovies() async {
+  static Future<List<LoveMovies>> fetchMovies(String token) async {
     try {
-      String? token = await AuthService.getToken();
-      if (token == null || token.isEmpty) {
-        throw Exception("Token không hợp lệ");
-      }
-
       final response = await http.get(
         Uri.parse(ApiConfig.listLoveMovies),
         headers: {
           'Accept': 'application/json',
-          'Authorization': 'Bearer $token', // ✅ Gửi token lên API
+          'Authorization': 'Bearer $token',
         },
       );
-
-      print("Response: ${response.body}"); // 🔍 Debug API response
-
       if (response.statusCode == 200) {
         return parseMovies(response.body);
+      } else if (response.statusCode == 401) {
+        throw Exception(
+          "Token hết hạn hoặc không hợp lệ. Vui lòng đăng nhập lại.",
+        );
       } else {
-        throw Exception('Lỗi tải phim: ${response.body}');
+        throw Exception(
+          "Lỗi tải phim: ${response.statusCode} - ${response.body}",
+        );
       }
     } catch (e) {
       print("Lỗi khi gọi API movies: $e");
