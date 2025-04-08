@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config/api_config.dart';
@@ -52,7 +53,7 @@ class ApiService {
     return token != null && token.isNotEmpty;
   }
 
-  static Future<void> logout() async {
+  static Future<void> logout(BuildContext context) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
@@ -71,10 +72,10 @@ class ApiService {
       );
 
       if (response.statusCode == 200) {
-        await prefs.remove('token');
-        await prefs.setBool('isLoggedIn', false);
-        await prefs.remove('username');
-        print("Ban da dang xuat thanh cong");
+        await prefs.clear();
+        print("Bạn đã đăng xuất thành công");
+
+        Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
       } else {
         print("Lỗi khi đăng xuất: ${response.body}");
       }

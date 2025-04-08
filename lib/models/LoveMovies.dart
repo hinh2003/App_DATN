@@ -3,7 +3,7 @@ import 'package:my_app/models/Category.dart';
 import 'package:my_app/models/Country.dart';
 import 'package:my_app/models/Status.dart';
 
-class Movie {
+class LoveMovies {
   final int id;
   final String nameMovie;
   final String pic;
@@ -17,7 +17,7 @@ class Movie {
   final Status? status;
   final List<Category>? categories;
 
-  Movie({
+  LoveMovies({
     required this.id,
     required this.nameMovie,
     required this.pic,
@@ -32,8 +32,8 @@ class Movie {
     this.categories,
   });
 
-  factory Movie.fromJson(Map<String, dynamic> json) {
-    return Movie(
+  factory LoveMovies.fromJson(Map<String, dynamic> json) {
+    return LoveMovies(
       id: json['id'] ?? 0,
       nameMovie: json['name_movie'] ?? 'Không có tên',
       pic:

@@ -4,7 +4,7 @@ import 'package:my_app/screens/signin_screnn.dart';
 import 'package:my_app/screens/signup_screen.dart';
 
 class AuthGuard extends StatelessWidget {
-  final Widget child; // Widget con (màn hình bên trong)
+  final Widget child;
 
   const AuthGuard({Key? key, required this.child}) : super(key: key);
 
