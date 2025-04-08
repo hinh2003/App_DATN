@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/api/Session/Session_service.dart';
+import 'package:my_app/screens/signin_screnn.dart';
+import 'package:my_app/screens/signup_screen.dart';
 
 class AuthGuard extends StatelessWidget {
   final Widget child; // Widget con (màn hình bên trong)
@@ -38,7 +40,10 @@ class AuthGuard extends StatelessWidget {
           const SizedBox(height: 16),
           ElevatedButton.icon(
             onPressed: () {
-              Navigator.pushReplacementNamed(context, '/signin');
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SignInPage2()),
+              );
             },
             icon: const Icon(Icons.login),
             label: const Text("Đăng nhập ngay"),

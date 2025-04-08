@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:my_app/api/Session/Session_service.dart';
 
 import 'package:flutter/material.dart';
+import 'package:my_app/screens/signin_screnn.dart';
+import 'package:my_app/screens/signup_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:my_app/api/Session/Session_service.dart';
 
@@ -91,7 +93,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       children: [
         ElevatedButton.icon(
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/signin');
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SignInPage2()),
+            );
           },
           icon: const Icon(Icons.login),
           label: const Text("Đăng nhập"),
@@ -99,7 +104,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
         const SizedBox(width: 16),
         ElevatedButton.icon(
           onPressed: () {
-            Navigator.pushReplacementNamed(context, '/signup');
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const SignUpPage()),
+            );
           },
           icon: const Icon(Icons.app_registration),
           label: const Text("Đăng ký"),

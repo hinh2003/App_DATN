@@ -45,7 +45,17 @@ class _Logo extends StatelessWidget {
 
     return Column(
       mainAxisSize: MainAxisSize.min,
+
       children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.blue),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         Image.asset(
           'assets/images/placeholder.png',
           width: isSmallScreen ? 300 : 400,

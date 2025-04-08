@@ -40,6 +40,15 @@ class _Logo extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
+        Align(
+          alignment: Alignment.centerLeft,
+          child: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.blue),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
         Image.asset(
           'assets/images/placeholder.png',
           width: isSmallScreen ? 300 : 400,
@@ -201,10 +210,23 @@ class __FormContentState extends State<_FormContent> {
             _gap(),
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
+                if (Navigator.canPop(context)) {
+                  Navigator.pop(context);
+                } else {
+                  Navigator.pushReplacementNamed(context, '/signin');
+                }
               },
               child: const Text(
                 "Bạn đã có tài khoản? Đăng nhập ngay!",
+                style: TextStyle(color: Colors.blue),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text(
+                "Quay lại Trang Chủ",
                 style: TextStyle(color: Colors.blue),
               ),
             ),
