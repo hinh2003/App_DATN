@@ -1,6 +1,6 @@
 class ApiConfig {
-  static const String urlImg = 'http://127.0.1.1:8000';
-  static const String baseUrl = 'http://127.0.1.1:8000/api';
+  static const String urlImg = 'https://hinoamime.io.vn';
+  static const String baseUrl = 'https://hinoamime.io.vn/api';
 
   static const String login = '$baseUrl/login';
   static const String logout = '$baseUrl/logout';

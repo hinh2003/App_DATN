@@ -5,26 +5,43 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isSmallScreen = MediaQuery.of(context).size.width < 600;
-
     return Scaffold(
-      body: Center(
-        child:
-            isSmallScreen
-                ? Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: const [_Logo(), _FormContent()],
-                )
-                : Container(
-                  padding: const EdgeInsets.all(32.0),
-                  constraints: const BoxConstraints(maxWidth: 800),
-                  child: Row(
-                    children: const [
-                      Expanded(child: _Logo()),
-                      Expanded(child: Center(child: _FormContent())),
-                    ],
-                  ),
+      resizeToAvoidBottomInset: true,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final bool isSmallScreen = MediaQuery.of(context).size.width < 600;
+
+          return SingleChildScrollView(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+              top: 24,
+              left: 16,
+              right: 16,
+            ),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: IntrinsicHeight(
+                child: Center(
+                  child: isSmallScreen
+                      ? Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [_Logo(), _FormContent()],
+                        )
+                      : Container(
+                          padding: const EdgeInsets.all(32.0),
+                          constraints: const BoxConstraints(maxWidth: 800),
+                          child: Row(
+                            children: const [
+                              Expanded(child: _Logo()),
+                              Expanded(child: Center(child: _FormContent())),
+                            ],
+                          ),
+                        ),
                 ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
